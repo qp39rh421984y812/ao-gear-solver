@@ -4,3 +4,12 @@
 
 [functions]
   node_bundler = "esbuild"
+
+# The function also declares `config.path = "/api/builds"` itself, but that only
+# takes effect once Netlify detects it as a v2 function. This rewrite makes the
+# route work either way, and costs nothing when the declared path already works.
+[[redirects]]
+  from = "/api/builds"
+  to = "/.netlify/functions/builds"
+  status = 200
+  force = true
