@@ -19,8 +19,13 @@ const json = (data, status = 200) =>
     headers: { 'content-type': 'application/json; charset=utf-8' }
   });
 
-/** A build code is slot groups separated by | -- reject anything that isn't one. */
+/**
+ * AO Gear Builder codes are base64url (A-Z a-z 0-9 - _). The leading byte is
+ * the format version (1-6), so the first character is always A or B.
+ * The old aotools format (slot groups separated by |) is still accepted.
+ */
 function looksLikeBuildCode(code) {
+  if (/^[AB][A-Za-z0-9_-]{7,}$/.test(code)) return true;
   return /^[A-Za-z0-9,|.\-]+$/.test(code) && code.includes('|');
 }
 
